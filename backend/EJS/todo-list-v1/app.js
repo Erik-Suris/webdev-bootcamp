@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-var item = ""
+var items = ["Buy Food", "Cook Food", "Eat food"]
 
 app.use(bodyParser.urlencoded({extended: true}))
 
@@ -21,12 +21,13 @@ app.get('/', function(req,res) {
 
     var day = today.toLocaleDateString("en-US", options)
 
-    res.render("list", {kindOfDay: day, newListItem: item})
+    res.render("list", {kindOfDay: day, newListItems: items})
 
 })
 
 app.post('/', function(req, res){
-    item = req.body.newItem
+    var item = req.body.newItem
+    items.push(item)
     res.redirect('/')
 })
 
