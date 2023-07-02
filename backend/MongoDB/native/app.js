@@ -1,29 +1,38 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+//jshint esversion:13
 
-// Replace the placeholder with your Atlas connection string
-const uri = "<connection string>";
+const { MongoClient } = require("mongodb")
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri,  {
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        }
-    }
-);
+// Replace the uri string with your connection string.
+const uri = "mongodb+srv://ErikSuris:tyL19oUgzDKoo40M@cluster0.bh6t2xk.mongodb.net/?retryWrites=true&w=majority"
+
+const client = new MongoClient(uri)
 
 async function run() {
-  try {
-    // Connect the client to the server (optional starting in v4.7)
-    await client.connect();
-
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    try {
+        const database = client.db("fruitsDB")
+        const fruits = database.collection("fruits");
+        // create an array of documents to insert
+        const docs = [
+            {
+                name: "Apple",
+                score: 8,
+                review: 'Great fruit!'
+            },
+            {
+                name: "Orange",
+                score: 6,
+                review: 'Kinda sour!'
+            },
+            {
+                name: "Banana",
+                score: 9,
+                review: 'Great stuff!'
+            }
+        ]
+        const result = await fruits.insertMany(docs)
+        console.log(`${result.insertedCount} documents were inserted`)
+    } finally {
+        await client.close()
+    }
   }
-}
-run().catch(console.dir);
+run().catch(console.dir)
