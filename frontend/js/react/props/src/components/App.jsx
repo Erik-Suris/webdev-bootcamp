@@ -2,11 +2,17 @@ import React from 'react'
 import Card from './Card'
 import animals from '../animals'
 
+function createCard(animal) {
+    return <Card
+        key={animal.id}
+        name={animal.name}
+        img={animal.imgURL}
+    />
+}
+
 function App() {
     return <div>
-        <Card name={animals[0].name} src={animals[0].imgURL}/>
-        <Card name={animals[1].name} src={animals[1].imgURL}/>
-        <Card name={animals[2].name} src={animals[2].imgURL}/>
+        {animals.map(createCard)}
     </div>
 }
 
