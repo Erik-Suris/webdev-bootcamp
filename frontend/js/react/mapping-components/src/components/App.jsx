@@ -1,0 +1,22 @@
+import React from "react";
+import Entry from './Entry'
+import emojipedia from '../emojipedia'
+
+function createEntry(emojipedia) {
+  return <Entry
+    key={emojipedia.id}
+    emoji={emojipedia.emoji}
+    name={emojipedia.name}
+    meaning={emojipedia.meaning}
+  />
+}
+
+function App() {
+  return <div>    
+    <dl className="dictionary">
+      {emojipedia.map(createEntry)}
+    </dl>
+  </div>
+}
+
+export default App;
